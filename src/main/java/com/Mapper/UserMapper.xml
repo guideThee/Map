@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.Dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.Bean.User" >
+    <id column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="user_loginname" property="userLoginname" jdbcType="VARCHAR" />
+    <result column="user_password" property="userPassword" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_sex" property="userSex" jdbcType="VARCHAR" />
+    <result column="user_telephone" property="userTelephone" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, user_loginname, user_password, user_name, user_sex, user_telephone
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.Bean.User" >
+    insert into user (user_id, user_loginname, user_password, 
+      user_name, user_sex, user_telephone
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{userLoginname,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{userSex,jdbcType=VARCHAR}, #{userTelephone,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.Bean.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userLoginname != null" >
+        user_loginname,
+      </if>
+      <if test="userPassword != null" >
+        user_password,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userSex != null" >
+        user_sex,
+      </if>
+      <if test="userTelephone != null" >
+        user_telephone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userLoginname != null" >
+        #{userLoginname,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null" >
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null" >
+        #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userTelephone != null" >
+        #{userTelephone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Bean.User" >
+    update user
+    <set >
+      <if test="userLoginname != null" >
+        user_loginname = #{userLoginname,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null" >
+        user_password = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null" >
+        user_sex = #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userTelephone != null" >
+        user_telephone = #{userTelephone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Bean.User" >
+    update user
+    set user_loginname = #{userLoginname,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_sex = #{userSex,jdbcType=VARCHAR},
+      user_telephone = #{userTelephone,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <select id="queryUserByLoginNameAndPassword" resultMap="BaseResultMap"
+		parameterType="com.Bean.User">
+		select
+		<include refid="Base_Column_List" />
+		from user
+		where user_loginname = #{userLoginname,jdbcType=VARCHAR} and
+		user_password = #{userPassword,jdbcType=VARCHAR}
+	</select>
+	  <select id="queryUserByLoginName" resultMap="BaseResultMap"
+		parameterType="com.Bean.User">
+		select
+		<include refid="Base_Column_List" />
+		from user
+		where user_loginname = #{userLoginname,jdbcType=VARCHAR}
+	</select>
+</mapper>

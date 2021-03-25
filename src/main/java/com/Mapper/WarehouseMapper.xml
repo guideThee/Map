@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.Dao.WarehouseMapper" >
+  <resultMap id="BaseResultMap" type="com.Bean.Warehouse" >
+    <id column="warehouse_id" property="warehouseId" jdbcType="VARCHAR" />
+    <result column="plan_name" property="planName" jdbcType="VARCHAR" />
+    <result column="user_loginname" property="userLoginname" jdbcType="VARCHAR" />
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="warehouse_name" property="warehouseName" jdbcType="VARCHAR" />
+    <result column="lng" property="lng" jdbcType="VARCHAR" />
+    <result column="lat" property="lat" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    warehouse_id, plan_name, user_loginname, id, warehouse_name, lng, lat
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from warehouse
+    where warehouse_id = #{warehouseId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from warehouse
+    where warehouse_id = #{warehouseId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.Bean.Warehouse" >
+    insert into warehouse (warehouse_id, plan_name, user_loginname, 
+      id, warehouse_name, lng, 
+      lat)
+    values (#{warehouseId,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR}, #{userLoginname,jdbcType=VARCHAR}, 
+      #{id,jdbcType=INTEGER}, #{warehouseName,jdbcType=VARCHAR}, #{lng,jdbcType=VARCHAR}, 
+      #{lat,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.Bean.Warehouse" >
+    insert into warehouse
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="warehouseId != null" >
+        warehouse_id,
+      </if>
+      <if test="planName != null" >
+        plan_name,
+      </if>
+      <if test="userLoginname != null" >
+        user_loginname,
+      </if>
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="warehouseName != null" >
+        warehouse_name,
+      </if>
+      <if test="lng != null" >
+        lng,
+      </if>
+      <if test="lat != null" >
+        lat,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="warehouseId != null" >
+        #{warehouseId,jdbcType=VARCHAR},
+      </if>
+      <if test="planName != null" >
+        #{planName,jdbcType=VARCHAR},
+      </if>
+      <if test="userLoginname != null" >
+        #{userLoginname,jdbcType=VARCHAR},
+      </if>
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseName != null" >
+        #{warehouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="lng != null" >
+        #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null" >
+        #{lat,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Bean.Warehouse" >
+    update warehouse
+    <set >
+      <if test="planName != null" >
+        plan_name = #{planName,jdbcType=VARCHAR},
+      </if>
+      <if test="userLoginname != null" >
+        user_loginname = #{userLoginname,jdbcType=VARCHAR},
+      </if>
+      <if test="id != null" >
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseName != null" >
+        warehouse_name = #{warehouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="lng != null" >
+        lng = #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null" >
+        lat = #{lat,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where warehouse_id = #{warehouseId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Bean.Warehouse" >
+    update warehouse
+    set plan_name = #{planName,jdbcType=VARCHAR},
+      user_loginname = #{userLoginname,jdbcType=VARCHAR},
+      id = #{id,jdbcType=INTEGER},
+      warehouse_name = #{warehouseName,jdbcType=VARCHAR},
+      lng = #{lng,jdbcType=VARCHAR},
+      lat = #{lat,jdbcType=VARCHAR}
+    where warehouse_id = #{warehouseId,jdbcType=VARCHAR}
+  </update>
+  <select id="queryByuserLoginnameAndplanName" resultMap="BaseResultMap"
+		parameterType="com.Bean.Plan">
+		select
+		<include refid="Base_Column_List" />
+		from warehouse
+		where user_loginname = #{userLoginname,jdbcType=VARCHAR}
+		and
+		plan_name = #{planName,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByuserLoginnameAndplanName" parameterType="com.Bean.Plan">
+		delete from
+		warehouse
+		where user_loginname = #{userLoginname,jdbcType=VARCHAR}
+		and
+		plan_name = #{planName,jdbcType=VARCHAR}
+	</delete>
+</mapper>
