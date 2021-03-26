@@ -17,7 +17,18 @@ public class Plan {
 
     private String flage;
 
-    private Date creattime;
+    public Plan(String userLoginname, String planName, String distance, String point, String warehouse, String flage,
+			Date creattime) {
+		this.userLoginname = userLoginname;
+		this.planName = planName;
+		this.distance = distance;
+		this.point = point;
+		this.warehouse = warehouse;
+		this.flage = flage;
+		this.creattime = creattime;
+	}
+
+	private Date creattime;
 
     public String getPlanId() {
         return planId;
