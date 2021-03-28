@@ -507,6 +507,7 @@ p {
 				});
 		    },
 			success : function(data) {
+				alert("calculate1");
 				sort = eval(data);
 				draw(list);
 			},
@@ -521,37 +522,43 @@ p {
 	</script>
 	<script>
 	function draw(list) {
-		var sortArray = new Array();//坐标数组
-		for (var i = 0; i < list.length; i++) {
-			sortArray.length++;
+		
+		var sortArray = new Array(list.length);//坐标数组
+		//for (var i = 0; i < list.length; i++) {
+			//sortArray.length++;
 			for (var j = 0; j < list.length; j++) {
-				if (sort[i] == list[j].id) {
-					sortArray[sortArray.length - 1] = new BMap.Point(
+		//		if (sort[i] == list[j].id) {
+					sortArray[j] = new BMap.Point(
 							list[j].lng, list[j].lat);
-				}
+		//		}
 			}
-		}
+		//}
 		var sy = new BMap.Symbol(BMap_Symbol_SHAPE_BACKWARD_OPEN_ARROW, {
 			scale : 0.6,//图标缩放大小
 			strokeColor : '#fff',//设置矢量图标的线填充颜色
 			strokeWeight : '2',//设置线宽
 		});
 		var icons = new BMap.IconSequence(sy, '10', '30');
+//在这之后有错误
 		// 创建polyline对象
-		sortArray[sortArray.length] = new BMap.Point(sortArray[0].lng,
-				sortArray[0].lat);
+//		sortArray[sortArray.length] = new BMap.Point(list[0].lng,
+//				list[0].lat);
+		///在这之前有错误
 		polyline = new BMap.Polyline(sortArray, {
 			enableEditing : false,//是否启用线编辑，默认为false
 			enableClicking : true,//是否响应点击事件，默认为true
 			icons : [ icons ],
 			strokeWeight : '8',//折线的宽度，以像素为单位
-			strokeOpacity : 0.8,//折线的透明度，取值范围0 - 1
+			strokeOpacity : 0.5,//折线的透明度，取值范围0 - 1
 			strokeColor :'#'+('00000'+ (Math.random()*0x1000000<<0).toString(16)).substr(-6)    //折线颜色
 		});
+
 		map.addOverlay(polyline); //增加折线
 		map.setViewport(sortArray);
+		//map.centerAndZoom("兰州", 15); // 初始化地图,用城市名设置地图中心点
 		FormLabel(list);
 		layer.closeAll();
+
 	}
 	</script>
 	<script>
@@ -1171,8 +1178,8 @@ p {
 	}
 	</script>
 	<script>
-	function ReadDraw()
-	{
+	function ReadDraw(){
+	
 		var list=new Array();
 		for(var i=0;i<cangk.length;i++){
 			var slist=new Array();

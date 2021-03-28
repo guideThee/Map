@@ -48,47 +48,49 @@ public class ajax {
 			e.printStackTrace();
 		}
 	}
-
-//	@RequestMapping(value = "getdata", method = { RequestMethod.POST })
-//	@ResponseBody
-//	public void saveu(@RequestBody String ss, HttpServletResponse resp) throws ServletException, IOException {
-//		/**/
-//		System.out.println("--------------------");
-//		System.out.println(ss);
-//		JSONArray jsonArray = JSONArray.fromObject(ss);
-//		ArrayList point = new ArrayList<pointArray>();
-//		for (int i = 0; i < jsonArray.size(); i++) {
-//			pointArray p = new pointArray();
-//			p.setId(jsonArray.getJSONObject(i).getInt("id"));
-//			p.setLng(Double.parseDouble(jsonArray.getJSONObject(i).getString("lng")));
-//			p.setLat(Double.parseDouble(jsonArray.getJSONObject(i).getString("lat")));
-//			point.add(p);
-//		}
-//		for (int i = 0; i < point.size(); i++) {
-//			pointArray p = (pointArray) point.get(i);
-//			System.out.println("id = " + p.getId());
-//			System.out.println("lng = " + p.getLng());
-//			System.out.println("lat = " + p.getLat());
-//		}
-//		outtxt(point);
+//
+	@RequestMapping(value = "getdata", method = { RequestMethod.POST })
+	@ResponseBody
+	public void saveu(@RequestBody String ss, HttpServletResponse resp) throws ServletException, IOException {
+		/**/
+		System.out.println("--------------------");
+		System.out.println(ss);
+		JSONArray jsonArray = JSONArray.fromObject(ss);
+		ArrayList point = new ArrayList<pointArray>();
+		for (int i = 0; i < jsonArray.size(); i++) {
+			pointArray p = new pointArray();
+			p.setId(jsonArray.getJSONObject(i).getInt("id"));
+			p.setLng(Double.parseDouble(jsonArray.getJSONObject(i).getString("lng")));
+			p.setLat(Double.parseDouble(jsonArray.getJSONObject(i).getString("lat")));
+			point.add(p);
+		}
+		for (int i = 0; i < point.size(); i++) {
+			pointArray p = (pointArray) point.get(i);
+			System.out.println("id = " + p.getId());
+			System.out.println("lng = " + p.getLng());
+			System.out.println("lat = " + p.getLat());
+		}
+		outtxt(point);
 //		try {
 //			AcoOptTest test = new AcoOptTest();
 //			Object[] result = test.tanxin3opt(1);
 //			MWNumericArray output = null; // 用于保存输出矩阵
 //			output = (MWNumericArray) result[0];
 //			int[] res = output.getIntData();
-//			for (int i = 0; i < res.length; i++)
-//				System.out.print(res[i] + "----");
-//			String json = JSONArray.fromObject(res).toString();
-//			resp.setHeader("Cache-Control", "no-cache");
-//			resp.setContentType("text/json; charset=utf-8");
-//			resp.getWriter().print(json);
-//			resp.getWriter().flush();
+		int[] res = {10,10,10};
+			for (int i = 0; i < res.length; i++)
+				System.out.print(res[i] + "----");
+			String json = JSONArray.fromObject(res).toString();
+			resp.setHeader("Cache-Control", "no-cache");
+			resp.setContentType("text/json; charset=utf-8");
+			resp.getWriter().print(json);
+			resp.getWriter().flush();
 //		} catch (MWException e) {
 //
 //			e.printStackTrace();
 //		}
-//	}
+	}
+	
 
 	@RequestMapping(value = "generate", method = { RequestMethod.POST })
 	@ResponseBody
