@@ -17,6 +17,7 @@ public class Plan {
 
     private String flage;
 
+    public Plan() {}
     public Plan(String userLoginname, String planName, String distance, String point, String warehouse, String flage,
 			Date creattime) {
 		this.userLoginname = userLoginname;
