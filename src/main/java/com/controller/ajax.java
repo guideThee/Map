@@ -5,11 +5,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.matlabInterface.GeneratePath;
+
 //import com.mathworks.toolbox.javabuilder.*;
 //import ACOOPT.*;
 import Bean.pointArray;
@@ -18,6 +23,9 @@ import net.sf.json.JSONArray;
 
 @Controller
 public class ajax {
+	
+	@Autowired
+	private GeneratePath generatePath;
 
 	/**
 	 * 1. 使用RequestMapping注解来映射请求的URL 2. 返回值会通过视图解析器解析为实际的物理视图,
@@ -48,11 +56,16 @@ public class ajax {
 			e.printStackTrace();
 		}
 	}
+	
+	@RequestMapping(value="/")
+	public String index() {
+		return "login";
+	}
 
-//	@RequestMapping(value = "getdata", method = { RequestMethod.POST })
-//	@ResponseBody
-//	public void saveu(@RequestBody String ss, HttpServletResponse resp) throws ServletException, IOException {
-//		/**/
+	@RequestMapping(value = "getdata", method = { RequestMethod.POST })
+	@ResponseBody
+	public void saveu(@RequestBody String jsonString, HttpServletResponse resp) throws ServletException, IOException {
+		/**/
 //		System.out.println("--------------------");
 //		System.out.println(ss);
 //		JSONArray jsonArray = JSONArray.fromObject(ss);
@@ -77,18 +90,22 @@ public class ajax {
 //			MWNumericArray output = null; // 用于保存输出矩阵
 //			output = (MWNumericArray) result[0];
 //			int[] res = output.getIntData();
+			
+//			int[] res = generatePath.generateResult(jsonString);
+		int[] res = {8,8,8};
+		
 //			for (int i = 0; i < res.length; i++)
 //				System.out.print(res[i] + "----");
-//			String json = JSONArray.fromObject(res).toString();
-//			resp.setHeader("Cache-Control", "no-cache");
-//			resp.setContentType("text/json; charset=utf-8");
-//			resp.getWriter().print(json);
-//			resp.getWriter().flush();
+			String json = JSONArray.fromObject(res).toString();
+			resp.setHeader("Cache-Control", "no-cache");
+			resp.setContentType("text/json; charset=utf-8");
+			resp.getWriter().print(json);
+			resp.getWriter().flush();
 //		} catch (MWException e) {
 //
 //			e.printStackTrace();
 //		}
-//	}
+	}
 
 	@RequestMapping(value = "generate", method = { RequestMethod.POST })
 	@ResponseBody

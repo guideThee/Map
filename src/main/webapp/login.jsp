@@ -19,27 +19,28 @@
 		<div class="lowin-wrapper">
 			<div class="lowin-box lowin-login">
 				<div class="lowin-box-inner">
-					<form>
+					<form action="${pageContext.request.contextPath}/UserController/login" method="post">
 						<p>可视化智能物流配送系统</p>
-						 <font color="red">${loginError }</font>
-						<div class="lowin-group">
+						 <font color="red">${loginError}</font>
+						 <div>
 							<label>账号 <a href="#" class="login-back-link">登录</a></label> <input
-								type="text" autocomplete="Login" name="Login"
-								id="Login" class="lowin-input">
+								type="text" autocomplete="Login" name="userLoginname"
+								id="userLoginname" class="lowin-input">
 						</div>
 						<div class="lowin-group password-group">
-							<label>密码 <input type="password" name="Password"
-								id="Password" autocomplete="current-password"
+							<label>密码 <input type="password" name="userPassword"
+								id="userPassword" autocomplete="current-password"
 								class="lowin-input">
 						</div>
-						<button class="lowin-btn login-btn" onclick="javascript:login()">登录</button>
+						<%--<button class="lowin-btn login-btn" onclick="javascript:login()">登录</button> --%>
+						<input type="submit" value="登录">
 						<div class="text-foot">
-							尚未注册? <a href="" class="register-link">注册</a>
+							尚未注册? <a href="${pageContext.request.contextPath}/regist.jsp" >注册</a>
 						</div>
 					</form>
 				</div>
 			</div>
-
+<%--
 			<div class="lowin-box lowin-register">
 				<div class="lowin-box-inner">
 					<form>
@@ -77,11 +78,12 @@
 				</div>
 			</div>
 		</div>
+		--%>
 
 		<footer class="lowin-footer"> Design By <a href="#">@丶BinZ</a>
 		</footer>
 	</div>
-
+<%--
 	<script src="js/auth.js"></script>
 	<script>
 		Auth.init({
@@ -89,11 +91,13 @@
 			forgot_url : '#forgot'
 		});
 	</script>
+	--%>
 </body>
 </html>
+<%--
 <script type="text/javascript">
 	function User() {
-	}
+	
 	var x;
 	var User = new User();
 	function resign() {
@@ -132,6 +136,7 @@
 			}
 		});
 	}
+	}
 	function login() {
 		User.UserLogin = document.getElementById("Login").value;
 		User.UserPassword = document.getElementById("Password").value;
@@ -147,6 +152,7 @@
 				if(x==1)
 					window.location.href = 'map.jsp';
 				else 
+		
 					layer.msg('用户名或密码错误！', {icon: 5});
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -155,5 +161,6 @@
 				alert(textStatus);
 			}
 		});
-	}
+	
 </script>
+--%>

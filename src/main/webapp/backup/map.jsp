@@ -1,9 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+
+					request.getServerName()+":"+
+					request.getServerPort()+path+"/";
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<!-- 响应式 -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="keywords"
 	content="sonic, responsive, free template, fluid layout, bootstrap, templatemo" />
@@ -14,7 +19,6 @@
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="all,follow">
-
 <style type="text/css">
 body, html {
 	width: 100%;
@@ -38,33 +42,25 @@ p {
 	font-size: 14px;
 }
 </style>
-<!-- cdn -->
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
-
-
-
-<script src="layer/layer.js"></script>
-
-
-
+<script src="<%=path%>/layer/layer.js"></script>
 <script type="text/javascript"
 	src="http://api.map.baidu.com/api?v=2.0&ak=QWipRQbtworVjld3ZvAAv7T0TMQYRknD"></script>
 <title>可视化智能物流配送系统</title>
-<link rel="shortcut icon" href="img/favicon.ico">
+<link rel="shortcut icon" href="<%=path%>/img/favicon.ico">
 <!-- global stylesheets -->
 <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed"
 	rel="stylesheet">
-<!-- bootstrap -->
-<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="<%=path%>/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="font-awesome-4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/font-icon-style.css">
-<link rel="stylesheet" href="css/style.default.css"
+	href="<%=path%>/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="<%=path%>/css/font-icon-style.css">
+<link rel="stylesheet" href="<%=path%>/css/style.default.css"
 	id="theme-stylesheet">
-<!-- element Core stylesheets -->
-<link rel="stylesheet" href="css/ui-elements/card.css">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="layui/css/layui.css" media="all">
+<!-- Core stylesheets -->
+<link rel="stylesheet" href="<%=path%>/css/ui-elements/card.css">
+<link rel="stylesheet" href="<%=path%>/css/style.css">
+<link rel="stylesheet" href="<%=path%>/layui/css/layui.css" media="all">
 </head>
 <body>
 
@@ -88,7 +84,7 @@ p {
 			<div class="navbar-header">
 				<a href="#" class="navbar-brand">
 					<div class="brand-text brand-big hidden-lg-down">
-						<img src="img/logo-icon.png" alt="Logo" class="img-fluid">
+						<img src="<%=path%>/img/logo-icon.png" alt="Logo" class="img-fluid">
 						可视化智能物流配送系统
 					</div>
 					<div class="brand-text brand-small">
@@ -176,30 +172,26 @@ p {
 	</div>
 
 	<!--Global Javascript -->
-	<script src="js/jquery.min.js"></script>
-	<script src="js/popper/popper.min.js"></script>
-	<script src="js/tether.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery.cookie.js"></script>
-	<script src="js/jquery.validate.min.js"></script>
-	<script src="js/chart.min.js"></script>
-	<script src="js/front.js"></script>
-	<script src="layui/layui.js"></script>
+	<script src="<%=path%>/js/jquery.min.js"></script>
+	<script src="<%=path%>/js/popper/popper.min.js"></script>
+	<script src="<%=path%>/js/tether.min.js"></script>
+	<script src="<%=path%>/js/bootstrap.min.js"></script>
+	<script src="<%=path%>/js/jquery.cookie.js"></script>
+	<script src="<%=path%>/js/jquery.validate.min.js"></script>
+	<script src="<%=path%>/js/chart.min.js"></script>
+	<script src="<%=path%>/js/front.js"></script>
+	<script src="<%=path%>/layui/layui.js"></script>
 	<!--Core Javascript -->
-	<script src="js/mychart.js"></script>
+	<script src="<%=path%>/js/mychart.js"></script>
 </body>
 </html>
 <script>
-
-	
 	var map;
 	function Plan() {
 	}
 	var Plan = new Plan();
 	var PlanName;
 	var centerlabel;
-	
-	//discrimination
 	var discripoint = 0, discrimap = 0, discriwarehouse = 0, discriPlanName = 0,discridraw=0,discrimanual=0;
 	var pointArray = new Array();//坐标数组
 	var pointArraydetail=new Array();//处理坐标数组
@@ -235,14 +227,12 @@ p {
 				data : JSON.stringify(value),
 				crossDomain : true,
 				success : function(data) {
-					//
 					x=eval(data);
 					if(x==1){
 					PlanName = value;
 					layer.close(index);
 					discrimap=1;
 					restart();
-					//alert(discrimap);
 					}
 					else
 					{
@@ -259,22 +249,17 @@ p {
 	}
 	</script>
 	<script>
-	
-	//
 	function start() {
 		document.getElementById("Plantable").style.display="none";//隐藏
 		document.getElementById("allmap").style.display="block";//显示
-		
-		//一旦开始了之后discripoint， discrimao都为1
 		discripoint = 1;
 		discrimap = 1;
 		// 百度地图API功能
-		//创建一个百度地图对象
 		map = new BMap.Map("allmap", {
 			enableMapClick : false
 		});//构造底图时，关闭底图可点功能
 		map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
-		map.centerAndZoom("上海", 33  ); // 初始化地图,用城市名设置地图中心点
+		map.centerAndZoom("兰州", 15); // 初始化地图,用城市名设置地图中心点
 		//1.添加工具条、比例尺控件
 		var top_left_control = new BMap.ScaleControl({
 			anchor : BMAP_ANCHOR_TOP_LEFT
@@ -306,47 +291,26 @@ p {
 		//3.添加标记
 		map.addEventListener("click", function(e) {
 			//标记
-			
 			if (discripoint == 1){
 			local.clearResults();
-			//“经度”【longitude】、“纬度”【 Latitude】。
 			var point = new BMap.Point(e.point.lng, e.point.lat);//添加点坐标
-			//大数组扩容
 			pointArray.length++;
 			var spoint = new Object();
-			
-			
-			//spoint相对于一个对象，存储了id 经纬度
-			//每一个标记给一个id，递增
 			spoint.id = pointArray.length;
 			spoint.lng = e.point.lng.toString();
 			spoint.lat = e.point.lat.toString();
-			
-			//方案类别？
-			//flage  1的时候为仓库   0的时候尾标记
 			spoint.flage = 0;
-			
-			//数组里面存数组，
 			pointArray[pointArray.length - 1] = spoint;
-			
-			//标注是标记
 			var marker = new BMap.Marker(point); // 创建标注  
 			map.addOverlay(marker); // 将标注添加到地图中    
 		    marker.disableMassClear();//mark不被清除
-		    
-		    //label？
-		    
 			var label = new BMap.Label(spoint.id, {
-				//标记上的文字偏移量
 				offset : new BMap.Size(20, -10)
 			});
 			label.setStyle({
 				fontSize : "20px"
 			});
-			marker.setLabel(label);
-			//删除标注  仓库和标记公用
-			
-			//??????
+			marker.setLabel(label);		
 			var removeMarker = function(e, ee, marker) {
 				var marketpoint = marker.getPosition();
 				var n, m, x;
@@ -376,34 +340,21 @@ p {
 			marker.addContextMenu(markerMenu);
 			}
 			//添加仓库
-			//discrimanual
-			//点击手动生成仓库，discrimanual=1
 			if(discrimanual==1){
-				
-				//标记仓库为2，为什么不为1， 手动生成
 				discriwarehouse = 2;
-				//标记
 				discridraw=2;
 				local.clearResults();
 				var point = new BMap.Point(e.point.lng, e.point.lat);//添加点坐标
 				cangk.length++;
-				
-				//spoint
 				var spoint = new Object();
-				
-				//spoint属性创立
 				spoint.id = cangk.length;
 				spoint.lng = e.point.lng.toString();
 				spoint.lat = e.point.lat.toString();
 				spoint.flage = 0;
-				
-				//仓库数组存spoint
 				cangk[cangk.length - 1] = spoint;
-				
-				
 				var marker = new BMap.Marker(point, {
 					icon : myIcon
-				}); // 创建仓库标注
+				}); // 创建标注
 				map.addOverlay(marker); // 将标注添加到地图中
 				marker.disableMassClear();//mark不被清除
 				var label = new BMap.Label("仓库" + spoint.id, {
@@ -451,13 +402,9 @@ p {
 			alert("请新建或读取方案!");
 			return;
 		}
-		
-		//初始化属性，对象
 		pointArray = new Array();//坐标数组
 		sort = new Array();//ID序列数组
 		cluster = new Array();//ID序列数组
-		
-		//cangk??????
 		cangk = new Array();//仓库数组
 		Cpoint = new Array();//分类数组
 		sort.length = 0;
@@ -469,17 +416,14 @@ p {
 		discridraw=0;
 		discrimanual=0;
 		Tdistance=parseFloat("0");
-		
-		//方法引用
 		start();
 	}
 	//停止标记
 	function suspended() {
 		if (discrimap == 0) {
-			alert("请点击: 新建文件“!");
+			alert("请点击”开始使用“!");
 			return;
 		}
-		
 		discripoint = 0;
 	}
 	//继续标记
@@ -537,19 +481,13 @@ p {
 			time : 100000
 		});
 		map.clearOverlays();
-		//计算总距离
-		
 		Tdistance=0;
-		//只要还不点击仓库，就只有标记，运行calculate1
 		if (discriwarehouse == 0){
 			discridraw=1;
-			console.log(pointArray);
 			calculate1(pointArray);
-		//点击自动生成仓库，discriwarehouse = 1
 		}else if(discriwarehouse==1){
 			calculate2();
 		}
-		//点击手动生成仓库，discrimanual=1，然后discriwarehouse = 2;
 		else if(discriwarehouse==2){
 			calculate3();
 		}		
@@ -575,8 +513,7 @@ p {
 				});
 		    },
 			success : function(data) {
-				alert("运行算法calculate1");
-				sort = eval(data);//evaluate
+				sort = eval(data);
 				draw(list);
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -590,50 +527,43 @@ p {
 	</script>
 	<script>
 	function draw(list) {
-		
-		var sortArray = new Array(list.length);//坐标数组
-		//for (var i = 0; i < list.length; i++) {
-			//sortArray.length++;
+		var sortArray = new Array();//坐标数组
+		for (var i = 0; i < list.length; i++) {
+			sortArray.length++;
 			for (var j = 0; j < list.length; j++) {
-		//		if (sort[i] == list[j].id) {
-					sortArray[j] = new BMap.Point(
+				if (sort[i] == list[j].id) {
+					sortArray[sortArray.length - 1] = new BMap.Point(
 							list[j].lng, list[j].lat);
-		//		}
+				}
 			}
-		//}
+		}
 		var sy = new BMap.Symbol(BMap_Symbol_SHAPE_BACKWARD_OPEN_ARROW, {
 			scale : 0.6,//图标缩放大小
 			strokeColor : '#fff',//设置矢量图标的线填充颜色
 			strokeWeight : '2',//设置线宽
 		});
 		var icons = new BMap.IconSequence(sy, '10', '30');
-//在这之后有错误
 		// 创建polyline对象
-		sortArray[list.length] = new BMap.Point(list[0].lng,
-			list[0].lat);
-		///在这之前有错误
+		sortArray[sortArray.length] = new BMap.Point(sortArray[0].lng,
+				sortArray[0].lat);
 		polyline = new BMap.Polyline(sortArray, {
 			enableEditing : false,//是否启用线编辑，默认为false
 			enableClicking : true,//是否响应点击事件，默认为true
 			icons : [ icons ],
 			strokeWeight : '8',//折线的宽度，以像素为单位
-			strokeOpacity : 0.5,//折线的透明度，取值范围0 - 1
+			strokeOpacity : 0.8,//折线的透明度，取值范围0 - 1
 			strokeColor :'#'+('00000'+ (Math.random()*0x1000000<<0).toString(16)).substr(-6)    //折线颜色
 		});
-
 		map.addOverlay(polyline); //增加折线
 		map.setViewport(sortArray);
-		//map.centerAndZoom("兰州", 15); // 初始化地图,用城市名设置地图中心点
 		FormLabel(list);
 		layer.closeAll();
-
 	}
 	</script>
 	<script>
 	//手动生成仓库-1.标记仓库
 	function manual() {
 		discripoint = 0;
-		//标记仓库   类似flage？？？
 		discrimanual=1;
 	}
 	</script>
@@ -645,16 +575,13 @@ p {
 	}
 	//手动生成仓库-2.分类
 	function calculate3(){
-		alert("调用calculate3");
-		//
 		discridraw=3;
-		//flage=1
 		for(var i=0;i<pointArray.length;i++){
 			pointArray[i].flage=1;
 		}
 		for(var i=0;i<cangk.length;i++){
 			for(var j=0;j<pointArray.length;j++){
-				//计算距离
+				
 				if(map.getDistance(new BMap.Point(cangk[i].lng, cangk[i].lat),new BMap.Point(pointArray[j].lng,
 						pointArray[j].lat))<map.getDistance(new BMap.Point(cangk[pointArray[j].flage-1].lng, cangk[pointArray[j].flage-1].lat),new BMap.Point(pointArray[j].lng,
 								pointArray[j].lat)))
@@ -768,9 +695,7 @@ p {
 	</script>
 	<script>
 	//自动生成仓库-a.绘制方案
-	//calculate2直接删除
 	function calculate2() {
-		alert("调用calculate2")
 		/*map.removeOverlay(polyline);*/
 		var i;
 		for (i = 0; i < cluster.length; i++) {
@@ -1014,9 +939,7 @@ p {
 	}
 	</script>
 	<script>
-	//点击我的方案
 	function yingcang()
-	
 	{
 		document.getElementById("allmap").style.display="none";//隐藏
 		document.getElementById("Plantable").style.display="block";//显示
@@ -1254,20 +1177,12 @@ p {
 	}
 	</script>
 	<script>
-	function ReadDraw(){
-	
+	function ReadDraw()
+	{
 		var list=new Array();
 		for(var i=0;i<cangk.length;i++){
 			var slist=new Array();
 			var ii=0;
-			var point1=new Object();
-			point1.id=ii+1;
-			point1.lng=cangk[i].lng;
-			point1.lat=cangk[i].lat;
-			point1.flage=cangk[i].id;
-			slist[ii]=point1;
-			ii++;
-			
 			for(var j=0;j<pointArray.length;j++)
 				if(pointArray[j].flage==i+1){
 					var point=new Object();
@@ -1278,16 +1193,14 @@ p {
 					slist[ii]=point;
 					ii++;
 				}
-		<%--	var point=new Object();
+			var point=new Object();
 			point.id=ii+1;
 			point.lng=cangk[i].lng;
 			point.lat=cangk[i].lat;
 			point.flage=cangk[i].id;
 			slist[ii]=point;
 			ii++;
-			--%>
 			list[i]=slist;
-			console.log(list);
 		}
 		return list;
 	}

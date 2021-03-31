@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -63,36 +64,29 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "login", method = { RequestMethod.POST })
-	@ResponseBody
-	public void login(@RequestBody String ss, HttpServletResponse resp, HttpSession session, Model model)
+	public void login(HttpServletResponse resp,HttpServletRequest req,User user, HttpSession session, Model model)
 			throws ServletException, IOException {
-		JSONObject obj = new JSONObject().fromObject(ss);
-		User user = new User();
-		user.setUserLoginname(obj.getString("UserLogin"));
-		user.setUserPassword(obj.getString("UserPassword"));
-		System.out.println("-----------登录信息：----------------");
-		System.out.println("UserLogin:" + user.getUserLoginname());
-		System.out.println("Userpassword:" + user.getUserPassword());
-		User u = userService.queryUserByLoginNameAndPassword(user);
-		int x = 0;
-		if (u != null) {
-			System.out.println("-----------查询结果：----------------");
-			System.out.println("UserID:" + u.getUserId());
-			System.out.println("UserLogin:" + u.getUserLoginname());
-			System.out.println("Userpassword:" + u.getUserPassword());
-			System.out.println("Username:" + u.getUserName());
-			System.out.println("Usersex:" + u.getUserSex());
-			System.out.println("Usertelephone:" + u.getUserTelephone());
-			x = 1;
-			session.setAttribute("USER", u);
-		}
-		if (u == null) {
+		
+//		User user = new User();
+//		user.setUserLoginname(obj.getString("UserLogin"));
+//		user.setUserPassword(obj.getString("UserPassword"));
+//		System.out.println("-----------登录信息：----------------");
+//		System.out.println("UserLogin:" + user.getUserLoginname());
+//		System.out.println("Userpassword:" + user.getUserPassword());
+		User queryUser = userService.queryUserByLoginNameAndPassword(user);
+		if (queryUser != null) {
+//			System.out.println("-----------查询结果：----------------");
+//			System.out.println("UserID:" + u.getUserId());
+//			System.out.println("UserLogin:" + u.getUserLoginname());
+//			System.out.println("Userpassword:" + u.getUserPassword());
+//			System.out.println("Username:" + u.getUserName());
+//			System.out.println("Usersex:" + u.getUserSex());
+//			System.out.println("Usertelephone:" + u.getUserTelephone());
+			session.setAttribute("USER", queryUser);
+			resp.sendRedirect("/Map/map.jsp");
+		}else {
 			model.addAttribute("loginError", "用户名或密码错误!");
+			req.getRequestDispatcher("/Map/login.jsp").forward(req, resp);
 		}
-		String json = JSONArray.fromObject(x).toString();
-		resp.setHeader("Cache-Control", "no-cache");
-		resp.setContentType("text/json; charset=utf-8");
-		resp.getWriter().print(json);
-		resp.getWriter().flush();
 	}
 }
