@@ -66,4 +66,13 @@
 		<url-pattern>/layer/*</url-pattern>
 		<url-pattern>/layui/*</url-pattern>
 	</servlet-mapping>
+	<!-- 配置过滤器，拦截访问map.jsp -->
+	<filter>
+		<filter-name>userFilter</filter-name>
+		<filter-class>com.filter.UserFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>userFilter</filter-name>
+		<url-pattern>/map.jsp</url-pattern>
+	</filter-mapping>
 </web-app>

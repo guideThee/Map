@@ -1,12 +1,167 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script src="layer/layer.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>注册</title>
+<link rel="stylesheet" href="css/auth.css">
 </head>
-<body>
 
+<body>
+	<%--<div class="lowin lowin-blue">
+		<div class="lowin-brand">
+			<img src="img/kodinger.jpg" alt="logo">
+		</div>
+		<div class="lowin-wrapper">
+			<div class="lowin-box lowin-login">
+				<div class="lowin-box-inner">
+					<form action="${pageContext.request.contextPath}/UserController/login" method="post">
+						<p>可视化智能物流配送系统</p>
+						 <font color="red">${loginError}</font>
+						 <div>
+							<label>账号 <a href="#" class="login-back-link">登录</a></label> <input
+								type="text" autocomplete="Login" name="userLoginname"
+								id="userLoginname" class="lowin-input">
+						</div>
+						<div class="lowin-group password-group">
+							<label>密码 <input type="password" name="userPassword"
+								id="userPassword" autocomplete="current-password"
+								class="lowin-input">
+						</div>
+						<button class="lowin-btn login-btn" onclick="javascript:login()">登录</button> 
+						<input type="submit" value="登录">
+						<div class="text-foot">
+							尚未注册? <a href="${pageContext.request.contextPath}/regist.jsp" >注册</a>
+						</div>
+					</form>
+				</div>
+			</div> --%>
+
+			<div class="lowin-box lowin-register">
+				<div class="lowin-box-inner">
+					<form action="${pageContext.request.contextPath}/UserController/resign" method="post">
+						<p>开始创建您的账户!</p>
+						<div class="lowin-group">
+							<label>账号</label> <input type="text" name="userLoginname"
+								id="userLoginname" autocomplete="UserLogin" class="lowin-input">
+						</div>
+						<div class="lowin-group">
+							<label>密码</label> <input type="password"
+								autocomplete="current-password" name="userPassword"
+								id="userPassword" class="lowin-input">
+						</div>
+						<div class="lowin-group">
+							<label>姓名</label> <input type="text" name="userName"
+								id="userName" autocomplete="UserName" class="lowin-input">
+						</div>
+						<div class="lowin-group">
+							<label>性别</label>
+							 <div class="layui-input-block">
+							 <input type="radio" name="userSex" 
+								autocomplete="UserSex" value="男" checked>男&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+								type="radio" name="userSex" id="userSex" autocomplete="UserSex" value="女">女
+						</div>
+						<div class="lowin-group">
+							<label>电话</label> <input type="text" name="userTelephone"
+								id="userTelephone" autocomplete="userTelephone"
+								class="lowin-input">
+						</div>
+						<%-- <button class="lowin-btn" onclick="javascript:resign()">注册</button>--%>
+						<input type="submit" value="注册">
+						<div class="text-foot">
+							已有账号? <a href="${pageContext.request.contextPath}/login.jsp" class="login-link">登录</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+<%--
+		<footer class="lowin-footer"> Design By <a href="#">@丶BinZ</a>
+		</footer>
+	</div>
+
+	<script src="js/auth.js"></script>
+	<script>
+		Auth.init({
+			login_url : '#login',
+			forgot_url : '#forgot'
+		});
+	</script>
+	--%>
 </body>
 </html>
+<%--
+<script type="text/javascript">
+	function User() {
+	
+	var x;
+	var User = new User();
+	function resign() {
+		User.UserLogin = document.getElementById("UserLogin").value;
+		User.UserPassword = document.getElementById("UserPassword").value;
+		User.UserName = document.getElementById("UserName").value;
+		var sex = document.getElementsByTagName("input");
+		for (var i = 0; i < sex.length; i++) {
+			if (sex[i].checked) {
+				User.UserSex = sex[i].value;
+			}
+		}
+		User.UserTelephone = document.getElementById("UserTelephone").value;
+		$.ajax({
+			type : "POST",
+			url : "UserController/resign",
+			dataType : "json",
+			contentType : "application/json;charset=UTF-8",
+			data : JSON.stringify(User),
+			crossDomain : true,
+			success : function(data) {
+				x=eval(data);
+				if(x==1)
+				{
+				layer.alert('注册成功!', {icon: 6});
+				}
+				else
+				{
+				layer.msg('账号已存在！', {icon: 5});
+				}
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				alert(XMLHttpRequest.status);
+				alert(XMLHttpRequest.readyState);
+				alert(textStatus);
+			}
+		});
+	}
+	}
+	function login() {
+		User.UserLogin = document.getElementById("Login").value;
+		User.UserPassword = document.getElementById("Password").value;
+		$.ajax({
+			type : "POST",
+			url : "UserController/login",
+			dataType : "json",
+			contentType : "application/json;charset=UTF-8",
+			data : JSON.stringify(User),
+			crossDomain : true,
+			success : function(data) {
+				x=eval(data);
+				if(x==1)
+					window.location.href = 'map.jsp';
+				else 
+		
+					layer.msg('用户名或密码错误！', {icon: 5});
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				alert(XMLHttpRequest.status);
+				alert(XMLHttpRequest.readyState);
+				alert(textStatus);
+			}
+		});
+	
+</script>
+--%>

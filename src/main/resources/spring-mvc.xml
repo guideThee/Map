@@ -67,4 +67,11 @@
 			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
+			<!--<mvc:mapping path="/map.jsp"/>  
+					<mvc:interceptors>
+						<mvc:interceptor>
+			<bean class="com.interceptor.UserInterceptor"></bean>
+						</mvc:interceptor>
+					</mvc:interceptors>
+			-->
 </beans>
