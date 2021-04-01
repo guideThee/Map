@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.Bean.Plan;
-import com.Bean.Point;
-import com.Bean.User;
-import com.Bean.Warehouse;
+import com.bean.Plan;
+import com.bean.Point;
+import com.bean.User;
+import com.bean.Warehouse;
 import com.controller.other.PrimaryKeyUtil;
 import com.service.PlanService;
 import com.service.PointService;

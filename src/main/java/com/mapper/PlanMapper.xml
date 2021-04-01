@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.PlanMapper">
+<!-- int deleteByPrimaryKey(String planId); -->
+	<delete id="deleteByPrimaryKey" >
+		delete from plan where id=#{planId}
+	</delete>
+	
+<!-- int insert(Plan plan); -->	
+	<insert id="insert">
+		insert into plan(plan_id,user_loginname,plan_name,distance,create_time) values(#{planId},#{userLoginname},#{planName},#{distance},#{createTime})
+	</insert>
+	
+<!-- Plan selectByPrimaryKey(String planId); -->	
+	<select id="selectByPrimaryKey" resultType="com.bean.Plan">
+		select plan_id planId,user_loginname userLoginname,plan_name planName,distance,create_time createTime
+		from plan where plan_id=#{planId}
+	</select>
+	
+<!--	int updateByPrimaryKey(Plan plan); -->
+	<update id="updateByPrimaryKey">
+		update plan
+		set user_loginname=#{userLoginname},plan_name=#{planName},
+		distance=#{distance},create_time=#{createTime}
+		where plan_id=#{planId}
+	</update>
+	
+<!-- List<Plan> queryAllPlan(Plan plan); -->	
+	<select id="queryAllPlan" resultType="com.bean.Plan">
+		select * from plan
+	</select>
+	
+<!-- List<Plan> queryByuserLoginname(Plan plan); -->	
+	<select id="queryByuserLoginname" resultType="com.bean.Plan">
+		select * from plan where user_loginname=#{userLoginname}
+	</select>
+</mapper>

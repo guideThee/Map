@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.Bean.Plan;
-import com.Bean.Warehouse;
-import com.Dao.WarehouseMapper;
+import com.bean.Plan;
+import com.bean.Warehouse;
+import com.dao.WarehouseMapper;
 import com.service.WarehouseService;
 
 @Service

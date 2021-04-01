@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.Bean.User;
+import com.bean.User;
 import com.controller.other.PrimaryKeyUtil;
 import com.service.UserService;
 

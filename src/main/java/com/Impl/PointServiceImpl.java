@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.Bean.Plan;
-import com.Bean.Point;
-import com.Dao.PointMapper;
+import com.bean.Plan;
+import com.bean.Point;
+import com.dao.PointMapper;
 import com.service.PointService;
 
 @Service

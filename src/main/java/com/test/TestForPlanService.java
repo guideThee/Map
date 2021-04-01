@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.Bean.Plan;
 import com.Impl.PlanServiceImpl;
+import com.bean.Plan;
 import com.service.PlanService;
 
 //import static org.junit.Assert.*;

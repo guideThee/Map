@@ -1,6 +1,6 @@
-package com.Dao;
+package com.dao;
 
-import com.Bean.User;
+import com.bean.User;
 
 public interface UserMapper {
 	int deleteByPrimaryKey(String userId);

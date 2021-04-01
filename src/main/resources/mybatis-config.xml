@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
 <configuration>
+	
+	
+
+
 	<!-- 全局参数 -->
 	<settings>
 		<!-- 使全局的映射器启用或禁用缓存。 -->
@@ -30,5 +35,25 @@
 		<!-- 分页相关 -->
 		<setting name="callSettersOnNulls" value="true" />
 	</settings>
-
+	<!--配置环境-->
+	<environments default="mysql">
+	    <!--配置mysql的环境-->
+	    <environment id="mysql">
+	        <!--配置事务的类型-->
+	        <transactionManager type="JDBC"></transactionManager>
+	        <!--配置数据源-->
+	        <dataSource type="POOLED">
+	            <!--配置连接数据库的4个基本信息-->
+	            <property name="driver" value="com.mysql.jdbc.Driver"/>
+	            <property name="url" value="jdbc:mysql://localhost:3306/map?useUnicode=true&amp;characterEncoding=utf-8"/>
+	            <property name="username" value="root"/>
+	            <property name="password" value="root"/>
+	        </dataSource>
+	    </environment>
+	</environments>
+	 <!--配置SQL映射文件-->
+    <mappers>
+        <mapper resource="com/mapper/PlanMapper.xml"/>
+    </mappers>
 </configuration>
+

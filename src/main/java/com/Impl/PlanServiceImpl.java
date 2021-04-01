@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.Bean.Plan;
-import com.Dao.PlanMapper;
+import com.bean.Plan;
+import com.dao.PlanMapper;
 import com.service.PlanService;
 
 @Service

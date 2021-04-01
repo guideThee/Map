@@ -1,9 +1,9 @@
-package com.Dao;
+package com.dao;
 
 import java.util.List;
 
-import com.Bean.Plan;
-import com.Bean.Warehouse;
+import com.bean.Plan;
+import com.bean.Warehouse;
 
 public interface WarehouseMapper {
 	int deleteByPrimaryKey(String warehouseId);

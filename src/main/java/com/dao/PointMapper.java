@@ -1,9 +1,9 @@
-package com.Dao;
+package com.dao;
 
 import java.util.List;
 
-import com.Bean.Plan;
-import com.Bean.Point;
+import com.bean.Plan;
+import com.bean.Point;
 
 public interface PointMapper {
 	int deleteByPrimaryKey(String pointId);

@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.Bean.User;
-import com.Dao.UserMapper;
+import com.bean.User;
+import com.dao.UserMapper;
 import com.service.UserService;
 
 @Service

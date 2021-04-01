@@ -2,7 +2,7 @@ package com.service;
 
 import java.util.List;
 
-import com.Bean.Plan;
+import com.bean.Plan;
 
 public interface PlanService {
 	int addPlanByPlan(Plan plan);
