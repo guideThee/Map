@@ -70,6 +70,12 @@ public class Plan {
 		this.distance = distance;
 		this.createTime = createTime;
 	}
+
+	@Override
+	public String toString() {
+		return "Plan [planId=" + planId + ", userLoginname=" + userLoginname + ", planName=" + planName + ", distance="
+				+ distance + ", createTime=" + createTime + "]";
+	}
 	
 
 }

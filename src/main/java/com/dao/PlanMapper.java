@@ -13,8 +13,8 @@ public interface PlanMapper {
 
 	int updateByPrimaryKey(Plan plan);
 
-	List<Plan> queryAllPlan(Plan plan);
+	List<Plan> queryAllPlan();
 
-	List<Plan> queryByuserLoginname(Plan plan);
+	List<Plan> queryByuserLoginname(String userLoginname);
 
 }

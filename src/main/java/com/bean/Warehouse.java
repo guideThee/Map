@@ -78,6 +78,12 @@ public class Warehouse {
 	public Warehouse() {
 		super();
 	}
+
+	@Override
+	public String toString() {
+		return "Warehouse [warehouseId=" + warehouseId + ", userLoginname=" + userLoginname + ", id=" + id + ", lng="
+				+ lng + ", lat=" + lat + ", flag=" + flag + "]";
+	}
 	
 	
 }

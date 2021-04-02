@@ -60,4 +60,12 @@ public class User {
     public void setUserTelephone(String userTelephone) {
         this.userTelephone = userTelephone == null ? null : userTelephone.trim();
     }
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", userLoginname=" + userLoginname + ", userPassword=" + userPassword
+				+ ", userName=" + userName + ", userSex=" + userSex + ", userTelephone=" + userTelephone + "]";
+	}
+    
+    
 }

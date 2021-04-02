@@ -3,7 +3,7 @@
 <mapper namespace="com.dao.PlanMapper">
 <!-- int deleteByPrimaryKey(String planId); -->
 	<delete id="deleteByPrimaryKey" >
-		delete from plan where id=#{planId}
+		delete from plan where plan_id=#{planId}
 	</delete>
 	
 <!-- int insert(Plan plan); -->	

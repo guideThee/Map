@@ -78,6 +78,12 @@ public class Point {
 	public void setFlag(String flag) {
 		this.flag = flag;
 	}
+
+	@Override
+	public String toString() {
+		return "Point [pointId=" + pointId + ", planId=" + planId + ", Id=" + Id + ", lng=" + lng + ", lat=" + lat
+				+ ", flag=" + flag + "]";
+	}
 	
 	
 
