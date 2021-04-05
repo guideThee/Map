@@ -66,6 +66,22 @@ public class User {
 		return "User [userId=" + userId + ", userLoginname=" + userLoginname + ", userPassword=" + userPassword
 				+ ", userName=" + userName + ", userSex=" + userSex + ", userTelephone=" + userTelephone + "]";
 	}
+
+	public User() {
+		super();
+	}
+
+	public User(String userId, String userLoginname, String userPassword, String userName, String userSex,
+			String userTelephone) {
+		super();
+		this.userId = userId;
+		this.userLoginname = userLoginname;
+		this.userPassword = userPassword;
+		this.userName = userName;
+		this.userSex = userSex;
+		this.userTelephone = userTelephone;
+	}
+	
     
     
 }

@@ -1,4 +1,4 @@
-package com.controller.other;
+package com.c.controller.other;
 
 import java.util.UUID;
 

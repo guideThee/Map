@@ -1,4 +1,4 @@
-package com.controller;
+package com.c.controller;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.matlabInterface.GeneratePath;
+import com.c.matlabInterface.GeneratePath;
 
 //import com.mathworks.toolbox.javabuilder.*;
 //import ACOOPT.*;

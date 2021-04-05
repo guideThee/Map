@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.interceptor;
+package com.c.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

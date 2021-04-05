@@ -2,7 +2,7 @@ package com.bean;
 
 /**方案内的点
  * @author hzz
- *
+ *  除了id=1并且flag!=0的point是仓库，其他的点都代表普通的点
  */
 public class Point {
 	

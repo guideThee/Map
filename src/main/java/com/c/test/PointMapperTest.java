@@ -1,4 +1,4 @@
-package com.test;
+package com.c.test;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,6 +60,7 @@ public class PointMapperTest {
 		
 	}
 	
+	//success
 	@Test
 	public void queryByPlanId() throws IOException {
 		List<Point> queryByPlanId = mapper.queryByPlanId("planId1234");

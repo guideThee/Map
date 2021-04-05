@@ -52,9 +52,13 @@
 	    </environment>
 	</environments>
 	 <!--配置SQL映射文件-->
+<!-- 
     <mappers>
         <mapper resource="com/mapper/PlanMapper.xml"/>
-        <mapper resource="com/mapper/PointMapper.xml"/>
+       <mapper resource="com/mapper/PointMapper.xml"/>
+        <mapper resource="com/mapper/UserMapper.xml"/>
+        
     </mappers>
+ -->
 </configuration>
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.Dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.Bean.User" >
+<mapper namespace="com.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.bean.User" >
     <id column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="user_loginname" property="userLoginname" jdbcType="VARCHAR" />
     <result column="user_password" property="userPassword" jdbcType="VARCHAR" />
@@ -22,7 +22,7 @@
     delete from user
     where user_id = #{userId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.Bean.User" >
+  <insert id="insert" parameterType="com.bean.User" >
     insert into user (user_id, user_loginname, user_password, 
       user_name, user_sex, user_telephone
       )
@@ -30,7 +30,7 @@
       #{userName,jdbcType=VARCHAR}, #{userSex,jdbcType=VARCHAR}, #{userTelephone,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.Bean.User" >
+  <insert id="insertSelective" parameterType="com.bean.User" >
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
@@ -73,7 +73,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.Bean.User" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.bean.User" >
     update user
     <set >
       <if test="userLoginname != null" >
@@ -94,7 +94,7 @@
     </set>
     where user_id = #{userId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.Bean.User" >
+  <update id="updateByPrimaryKey" parameterType="com.bean.User" >
     update user
     set user_loginname = #{userLoginname,jdbcType=VARCHAR},
       user_password = #{userPassword,jdbcType=VARCHAR},
@@ -104,7 +104,7 @@
     where user_id = #{userId,jdbcType=VARCHAR}
   </update>
   <select id="queryUserByLoginNameAndPassword" resultMap="BaseResultMap"
-		parameterType="com.Bean.User">
+		parameterType="com.bean.User">
 		select
 		<include refid="Base_Column_List" />
 		from user
@@ -112,7 +112,7 @@
 		user_password = #{userPassword,jdbcType=VARCHAR}
 	</select>
 	  <select id="queryUserByLoginName" resultMap="BaseResultMap"
-		parameterType="com.Bean.User">
+		parameterType="com.bean.User">
 		select
 		<include refid="Base_Column_List" />
 		from user

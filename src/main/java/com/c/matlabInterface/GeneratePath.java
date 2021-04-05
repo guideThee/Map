@@ -1,4 +1,4 @@
-package com.matlabInterface;
+package com.c.matlabInterface;
 
 import java.util.List;
 

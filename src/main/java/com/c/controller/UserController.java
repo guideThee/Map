@@ -1,4 +1,4 @@
-package com.controller;
+package com.c.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bean.User;
-import com.controller.other.PrimaryKeyUtil;
-import com.service.UserService;
+import com.c.controller.other.PrimaryKeyUtil;
+import com.c.service.UserService;
 
 import Bean.pointArray;
 import net.sf.json.JSONArray;
@@ -29,6 +29,7 @@ import net.sf.json.JSONObject;
 @Controller
 @RequestMapping("/UserController")
 public class UserController {
+	
 	@Autowired
 	private UserService userService;
 

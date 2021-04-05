@@ -1,4 +1,4 @@
-package com.matlabImpl;
+package com.c.matlabImpl;
 
 import java.util.ArrayList;
 
@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.c.matlabInterface.GeneratePath;
 import com.mathworks.toolbox.javabuilder.MWClassID;
 import com.mathworks.toolbox.javabuilder.MWNumericArray;
-import com.matlabInterface.GeneratePath;
 
 import Bean.pointArray;
 import net.sf.json.JSONArray;
