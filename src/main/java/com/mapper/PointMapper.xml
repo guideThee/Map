@@ -1,130 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.Dao.PointMapper" >
-  <resultMap id="BaseResultMap" type="com.Bean.Point" >
-    <id column="point_id" property="pointId" jdbcType="VARCHAR" />
-    <result column="plan_name" property="planName" jdbcType="VARCHAR" />
-    <result column="user_loginname" property="userLoginname" jdbcType="VARCHAR" />
-    <result column="id" property="id" jdbcType="INTEGER" />
-    <result column="lng" property="lng" jdbcType="VARCHAR" />
-    <result column="lat" property="lat" jdbcType="VARCHAR" />
-    <result column="flage" property="flage" jdbcType="INTEGER" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    point_id, plan_name, user_loginname, id, lng, lat, flage
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from point
-    where point_id = #{pointId,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from point
-    where point_id = #{pointId,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.Bean.Point" >
-    insert into point (point_id, plan_name, user_loginname, 
-      id, lng, lat, flage
-      )
-    values (#{pointId,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR}, #{userLoginname,jdbcType=VARCHAR}, 
-      #{id,jdbcType=INTEGER}, #{lng,jdbcType=VARCHAR}, #{lat,jdbcType=VARCHAR}, #{flage,jdbcType=INTEGER}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.Bean.Point" >
-    insert into point
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="pointId != null" >
-        point_id,
-      </if>
-      <if test="planName != null" >
-        plan_name,
-      </if>
-      <if test="userLoginname != null" >
-        user_loginname,
-      </if>
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="lng != null" >
-        lng,
-      </if>
-      <if test="lat != null" >
-        lat,
-      </if>
-      <if test="flage != null" >
-        flage,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="pointId != null" >
-        #{pointId,jdbcType=VARCHAR},
-      </if>
-      <if test="planName != null" >
-        #{planName,jdbcType=VARCHAR},
-      </if>
-      <if test="userLoginname != null" >
-        #{userLoginname,jdbcType=VARCHAR},
-      </if>
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="lng != null" >
-        #{lng,jdbcType=VARCHAR},
-      </if>
-      <if test="lat != null" >
-        #{lat,jdbcType=VARCHAR},
-      </if>
-      <if test="flage != null" >
-        #{flage,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.Bean.Point" >
-    update point
-    <set >
-      <if test="planName != null" >
-        plan_name = #{planName,jdbcType=VARCHAR},
-      </if>
-      <if test="userLoginname != null" >
-        user_loginname = #{userLoginname,jdbcType=VARCHAR},
-      </if>
-      <if test="id != null" >
-        id = #{id,jdbcType=INTEGER},
-      </if>
-      <if test="lng != null" >
-        lng = #{lng,jdbcType=VARCHAR},
-      </if>
-      <if test="lat != null" >
-        lat = #{lat,jdbcType=VARCHAR},
-      </if>
-      <if test="flage != null" >
-        flage = #{flage,jdbcType=INTEGER},
-      </if>
-    </set>
-    where point_id = #{pointId,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.Bean.Point" >
-    update point
-    set plan_name = #{planName,jdbcType=VARCHAR},
-      user_loginname = #{userLoginname,jdbcType=VARCHAR},
-      id = #{id,jdbcType=INTEGER},
-      lng = #{lng,jdbcType=VARCHAR},
-      lat = #{lat,jdbcType=VARCHAR},
-      flage = #{flage,jdbcType=INTEGER}
-    where point_id = #{pointId,jdbcType=VARCHAR}
-  </update>
-  <select id="queryByuserLoginnameAndplanName" resultMap="BaseResultMap"
-		parameterType="com.Bean.Plan">
-		select
-		<include refid="Base_Column_List" />
-		from point
-		where user_loginname = #{userLoginname,jdbcType=VARCHAR} and
-		plan_name = #{planName,jdbcType=VARCHAR}
-	</select>
-    <delete id="deleteByuserLoginnameAndplanName" parameterType="com.Bean.Plan">
-		delete from point
-		where user_loginname = #{userLoginname,jdbcType=VARCHAR} and
-		plan_name = #{planName,jdbcType=VARCHAR}
+<mapper namespace="com.dao.PointMapper" >
+<!-- int deleteByPlanId(String planId); -->
+	<delete id="deleteByPlanId">
+		delete from `point` where plan_id=#{planId}
 	</delete>
+	
+<!-- int insertBatch(List<Point> points); -->
+	<insert id="insertBatch">
+		insert into `point`(plan_id,id,lng,lat,flag)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.planId},#{item.id},#{item.lng},#{item.lat},#{item.flag})
+		</foreach>
+	</insert>
+
+<!-- List<Point> queryByPlanId(String planId); -->
+	<select id="queryByPlanId" resultType="com.bean.Point">
+		select * from `point` where plan_id=#{planId}
+	</select>
+	
 </mapper>

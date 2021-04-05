@@ -6,19 +6,10 @@ import com.bean.Plan;
 import com.bean.Point;
 
 public interface PointMapper {
-	int deleteByPrimaryKey(String pointId);
+	int deleteByPlanId(String planId);
 
-	int insert(Point record);
+	int insertBatch(List<Point> points);
 
-	int insertSelective(Point record);
+	List<Point> queryByPlanId(String planId);
 
-	Point selectByPrimaryKey(String pointId);
-
-	int updateByPrimaryKeySelective(Point record);
-
-	int updateByPrimaryKey(Point record);
-
-	List<Point> queryByuserLoginnameAndplanName(Plan plan);
-
-	int deleteByuserLoginnameAndplanName(Plan plan);
 }

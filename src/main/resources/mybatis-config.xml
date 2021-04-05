@@ -54,6 +54,7 @@
 	 <!--配置SQL映射文件-->
     <mappers>
         <mapper resource="com/mapper/PlanMapper.xml"/>
+        <mapper resource="com/mapper/PointMapper.xml"/>
     </mappers>
 </configuration>
 

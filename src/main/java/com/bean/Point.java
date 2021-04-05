@@ -10,7 +10,7 @@ public class Point {
 	
 	private String planId;//该点属于哪一个方案
 	
-	private int Id;//属于某一个仓库内点集的id
+	private int id;//属于某一个仓库内点集的id
 	
 	private String lng;//经度
 	
@@ -21,7 +21,7 @@ public class Point {
 	public Point(String planId, int id, String lng, String lat, String flag) {
 		super();
 		this.planId = planId;
-		Id = id;
+		id = id;
 		this.lng = lng;
 		this.lat = lat;
 		this.flag = flag;
@@ -48,11 +48,11 @@ public class Point {
 	}
 
 	public int getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(int id) {
-		Id = id;
+		id = id;
 	}
 
 	public String getLng() {
@@ -81,7 +81,7 @@ public class Point {
 
 	@Override
 	public String toString() {
-		return "Point [pointId=" + pointId + ", planId=" + planId + ", Id=" + Id + ", lng=" + lng + ", lat=" + lat
+		return "Point [pointId=" + pointId + ", planId=" + planId + ", Id=" + id + ", lng=" + lng + ", lat=" + lat
 				+ ", flag=" + flag + "]";
 	}
 	
