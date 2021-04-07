@@ -11,13 +11,13 @@ public interface PlanService {
 	 * @param plan
 	 * @return 
 	 */
-	int addPlan(Plan plan,List<Point> points);
+	int addPlan(Plan plan);
 	
-//	/**增加的points进入数据库
-//	 * @param points
-//	 * @return
-//	 */
-//	int addPoints(List<Point> points);
+	/**增加的points进入数据库
+	 * @param points
+	 * @return
+	 */
+	int addPoints(List<Point> points);
 //	
     /**查询所有plan
      * @param plan
@@ -35,7 +35,13 @@ public interface PlanService {
      * @param planId
      * @return
      */
-    int deleteByPlanId(String planId,List<Point> points);
+    int deletePointsByPlanId(String planId);
+    
+    /** 根据planId删除points
+     * @param planId
+     * @return
+     */
+    int deletePlanByPlanId(String planId);
     
     /**查询一个plan
      * @param planId
@@ -48,5 +54,12 @@ public interface PlanService {
      * @return
      */
     List<Point> queryPointsInOnePlan(String planId);
+    
+    /**根据用户名和方案名查询方案
+     * @param userLoginname
+     * @param planName
+     * @return
+     */
+    Plan queryByUserLoginnameAndPlanName(Plan plan);
     
 }

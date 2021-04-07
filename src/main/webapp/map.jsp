@@ -58,7 +58,7 @@ p {
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet"
 	href="font-awesome-4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="css/font-icon-style.css">
+<%-- <link rel="stylesheet" href="css/font-icon-style.css">--%>
 <link rel="stylesheet" href="css/style.default.css"
 	id="theme-stylesheet">
 <!-- element Core stylesheets -->
@@ -143,7 +143,7 @@ p {
 				<ul id="pages" class="collapse list-unstyled">
 					<li><a href="javascript:newPlan()">新建</a></li>
 					<li><a href="javascript:restart()">重置</a></li>
-					<li><a href="javascript:yingcang()">读取</a></li>
+					<li><a href="PlanController/getPlans">读取</a></li>
 					<li><a href="javascript:save()">保存</a></li>
 				</ul></li>
 			<li><a href="#tables" aria-expanded="false"
@@ -190,11 +190,13 @@ p {
 </body>
 </html>
 <script>
-
+	
 	
 	var map;
 	function Plan() {
 	}
+	var loadPointArray = new Array();//获取重新加载方案的点
+	var mySavePointArray = new Array();//用来最后保存生成解决方案后的点集
 	var Plan = new Plan();
 	var PlanName;
 	var centerlabel;
@@ -220,7 +222,8 @@ p {
 	var getRandomColor = function(){
 	    return "hsb(" + Math.random()  + ", 1, 1)";
 	 }
-	//开始
+	
+		//开始
 	function newPlan() {
 		var x=0;
 		layer.prompt({
@@ -257,9 +260,21 @@ p {
 			});		
 		});
 	}
+	
+			
 	</script>
 	<script>
-	
+	//计算环长
+	function distance(array) {
+		var mile = 0;
+		var i;
+		for (i = 0; i < array.length - 1; i++) {
+		   mile+=map.getDistance(new BMap.Point(array[i].lng, array[i].lat),new BMap.Point(array[i + 1].lng,
+					array[i + 1].lat))/1000;
+		}
+		mile=mile.toFixed(4);
+		return mile;
+	}
 	//
 	function start() {
 		document.getElementById("Plantable").style.display="none";//隐藏
@@ -323,8 +338,8 @@ p {
 			spoint.lat = e.point.lat.toString();
 			
 			//方案类别？
-			//flage  1的时候为仓库   0的时候尾标记
-			spoint.flage = 0;
+			//flag  1的时候为仓库   0的时候尾标记
+			spoint.flag = 0;
 			
 			//数组里面存数组，
 			pointArray[pointArray.length - 1] = spoint;
@@ -395,7 +410,7 @@ p {
 				spoint.id = cangk.length;
 				spoint.lng = e.point.lng.toString();
 				spoint.lat = e.point.lat.toString();
-				spoint.flage = 0;
+				spoint.flag = 0;
 				
 				//仓库数组存spoint
 				cangk[cangk.length - 1] = spoint;
@@ -445,6 +460,45 @@ p {
 	}
 	</script>
 	<script>
+	function FormLabel(array)
+	{
+		$.ajax({
+			async : false,
+			type : "POST",
+			url : "center",
+			dataType : "json",
+			contentType : "application/json;charset=UTF-8",
+			data : JSON.stringify(array),
+			crossDomain : true,
+			success : function(data) {
+				centerlabel = eval(data)
+				var point = new BMap.Point(centerlabel[0].lng,
+						centerlabel[0].lat);
+				var opts = {
+					position : point, // 指定文本标注所在的地理位置
+					offset : new BMap.Size(-30, 0)
+				//设置文本偏移量
+				}
+				var miles = distance(array);
+				miles=parseFloat(miles);
+				Tdistance +=miles;
+				var label = new BMap.Label("总距离为：" + miles + "公里", opts); // 创建文本标注对象
+				label.setStyle({
+					color : "red",
+					fontSize : "20px",
+					height : "25px",
+					lineHeight : "25px",
+					fontFamily : "微软雅黑"
+				});
+				map.addOverlay(label);
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				alert(XMLHttpRequest.status);
+				alert(XMLHttpRequest.readyState);
+				alert(textStatus);
+			}
+		});
+	}
 	//重置
 	function restart() {
 		if (discrimap == 0) {
@@ -554,6 +608,43 @@ p {
 			calculate3();
 		}		
 	}
+	//加载已有地图的画图功能
+	function calculateSavePoints() {
+		if (discrimap == 0) {
+			alert("请点击”开始使用“!");
+			return;
+		}
+		if (pointArray.length == 0) {
+			alert("请标记完成后生成方案！");
+			return;
+		}
+		if (pointArray.length == 1) {
+			alert("标记过少！请继续标记！");
+			return;
+		}
+		layer.msg('正在生成方案，请稍后...', {
+			icon : 16,
+			shade : 0.01,
+			time : 100000
+		});
+		map.clearOverlays();
+		//计算总距离
+		
+		Tdistance=0;
+		//只要还不点击仓库，就只有标记，运行calculate1
+		if (discriwarehouse == 0){
+			discridraw=1;
+			console.log(pointArray);
+			calculate1(loadPointArray);
+		//点击自动生成仓库，discriwarehouse = 1
+		}else if(discriwarehouse==1){
+			calculate2();
+		}
+		//点击手动生成仓库，discrimanual=1，然后discriwarehouse = 2;
+		else if(discriwarehouse==2){
+			loadPointCalculate3();
+		}		
+	}
 	//无仓库方案
 	</script>
 	<script>
@@ -628,12 +719,10 @@ p {
 		layer.closeAll();
 
 	}
-	</script>
-	<script>
 	//手动生成仓库-1.标记仓库
 	function manual() {
 		discripoint = 0;
-		//标记仓库   类似flage？？？
+		//标记仓库   类似flag？？？
 		discrimanual=1;
 	}
 	</script>
@@ -648,18 +737,18 @@ p {
 		alert("调用calculate3");
 		//
 		discridraw=3;
-		//flage=1
+		//flag=1
 		for(var i=0;i<pointArray.length;i++){
-			pointArray[i].flage=1;
+			pointArray[i].flag=1;
 		}
 		for(var i=0;i<cangk.length;i++){
 			for(var j=0;j<pointArray.length;j++){
 				//计算距离
 				if(map.getDistance(new BMap.Point(cangk[i].lng, cangk[i].lat),new BMap.Point(pointArray[j].lng,
-						pointArray[j].lat))<map.getDistance(new BMap.Point(cangk[pointArray[j].flage-1].lng, cangk[pointArray[j].flage-1].lat),new BMap.Point(pointArray[j].lng,
+						pointArray[j].lat))<map.getDistance(new BMap.Point(cangk[pointArray[j].flag-1].lng, cangk[pointArray[j].flag-1].lat),new BMap.Point(pointArray[j].lng,
 								pointArray[j].lat)))
 					{
-					pointArray[j].flage=i+1;
+					pointArray[j].flag=i+1;
 					}
 			}
 		}
@@ -669,6 +758,36 @@ p {
 			calculate1(list[i]);
 		/*map.setViewport(pointArray);*/
 	}
+	
+	//重新加载点集的calculate
+	function loadPointCalculate3(){
+		alert("调用calculate3");
+		//
+		discridraw=3;
+		//flag=1
+		for(var i=0;i<pointArray.length;i++){
+			pointArray[i].flag=1;
+		}
+		for(var i=0;i<cangk.length;i++){
+			for(var j=0;j<pointArray.length;j++){
+				//计算距离
+				if(map.getDistance(new BMap.Point(cangk[i].lng, cangk[i].lat),new BMap.Point(pointArray[j].lng,
+						pointArray[j].lat))<map.getDistance(new BMap.Point(cangk[pointArray[j].flag-1].lng, cangk[pointArray[j].flag-1].lat),new BMap.Point(pointArray[j].lng,
+								pointArray[j].lat)))
+					{
+					pointArray[j].flag=i+1;
+					}
+			}
+		}
+		/*map.removeOverlay(polyline);*/
+		var list=ReadDraw();
+		for(var i=0;i<list.length;i++)
+			calculate1(list[i]);
+		/*map.setViewport(pointArray);*/
+	}
+	</script>
+	<script>
+
 	</script>
 	<script>
 	//自动生成仓库-1.仓库个数
@@ -838,32 +957,51 @@ p {
 	<script>
 	//保存
 	function save() {
+		console.log("save");
 		savePlan();
-		savePoint();
-		saveWarehouse();
+		
+		
+		//saveWarehouse();
+	}
+	function MyPlan() {
 	}
 	//保存方案
 	function savePlan() {
-		Plan.planName = PlanName;
-		var s = ${USER.userLoginname};
-		Plan.userName = s;
-		Plan.point = pointArray.length;
-		Plan.warehouse = cangk.length;
-		Plan.flage = discridraw;
-		Plan.distance=Tdistance;
+		console.log("savePlan");
+		alert("savePlan()");
+		var s = "${USER.userLoginname}";
+<%--		let myPlan = class {
+			constructor(planName,userLoginname,distance){
+				this。planName = planName;
+				this.userLoginname = userLoginname;
+				this.distance = distance;
+			}
+		}; --%>
+
+		var myPlan = new MyPlan();
+		console.log(PlanName);
+		myPlan.planName = PlanName;
+		myPlan.userLoginname = s;
+		myPlan.distance = Tdistance;
+		
+		//myPlan.userLoginname = s;
+		//Plan.point = pointArray.length;
+		//Plan.warehouse = cangk.length;
+		//Plan.flag = discridraw;
+		//myPlan.distance=;
 		$.ajax({
 			async : false,
 			type : "POST",
 			url : "PlanController/savePlan",
 			dataType : "json",
 			contentType : "application/json;charset=UTF-8",
-			data : JSON.stringify(Plan),
+			data : JSON.stringify(myPlan),
 			crossDomain : true,
 			success : function(data) {
 				var checkplan=eval(data);
-				if(pointArray.length==0){
+				//if(pointArray.length==0){
 				alert("success");
-				}
+				//}
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 				alert(XMLHttpRequest.status);
@@ -871,25 +1009,44 @@ p {
 				alert(textStatus);
 			}
 		});
+		//要放在这里面，否则会抢先savePlan()触发，那么就报错了。
+		savePoint();
 	}
 	//保存标记
 	</script>
 	<script>
 	function savePoint() {
-	if(discridraw==0||discridraw==1){
+		var saveArray = new Array();
+		var cangku = new Array();
+		
+		for(i = 0;i < pointArray.length;i++){
+			pointArray[i].flag = 0;
+		}
+		cangku = cangku.concat(cangk);
+		saveArray = saveArray.concat(pointArray);
+		for(i = 0;i < cangku.length;i++){
+			cangku[i].flag = 1;
+		}
+		saveArray = saveArray.concat(cangku);
+		console.log(pointArray);
+		console.log(cangku);
+		console.log(saveArray);
+		alert("savePoint()");
+	//if(discridraw==0||discridraw==1){
+		//var savePointArray = pointArray.concat(cangk);
 		$.ajax({
 			async : false,
 			type : "POST",
-			url : "PointController/savePoint",
+			url : "PlanController/savePoint",
 			dataType : "json",
 			contentType : "application/json;charset=UTF-8",
-			data : JSON.stringify(pointArray),
+			data : JSON.stringify(saveArray),
 			crossDomain : true,
 			success : function(data) {
 				var checkplan=eval(data);
-				if(checkplan.flage!=3){
+				//if(checkplan.flag!=3){
 				alert("success");
-				}
+				//}
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 				alert(XMLHttpRequest.status);
@@ -897,128 +1054,25 @@ p {
 				alert(textStatus);
 			}
 		});
-		}
-	if(discridraw==3)
-	{
-		for (i = 0; i < cluster.length; i++) {
-			Cpoint = eval(cluster[i]);
-			for(var j=0;j<Cpoint.length-1;j++)
-			{
-				for(var ii=0;ii<pointArray.length;ii++)
-				{
-					if(Cpoint[j].lat==pointArray[ii].lat&&Cpoint[j].lng==pointArray[ii].lng)
-						pointArray[ii].flage=i+1;
-				}
-			}
-			
-		}
-		$.ajax({
-			async : false,
-			type : "POST",
-			url : "PointController/savePoint",
-			dataType : "json",
-			contentType : "application/json;charset=UTF-8",
-			data : JSON.stringify(pointArray),
-			crossDomain : true,
-			success : function(data) {
-				var checkplan=eval(data);
-				if(checkplan.flage==3){
-				alert("success");
-				}
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				alert(XMLHttpRequest.status);
-				alert(XMLHttpRequest.readyState);
-				alert(textStatus);
-			}
-		});
-	}
+		mySavePointArray = new Array();
+		//}
+	
 	}
 	</script>
 	<script>
 	//保存仓库
-	function saveWarehouse() {
-		if (discriwarehouse != 0) {
-			for(var i=0;i<cangk.length;i++)
-				cangk[i].id=i+1;
-			$.ajax({
-				async : false,
-				type : "POST",
-				url : "WarehouseController/saveWarehouse",
-				dataType : "json",
-				contentType : "application/json;charset=UTF-8",
-				data : JSON.stringify(cangk),
-				crossDomain : true,
-				success : function(data) {
-					alert("success");
-				},
-				error : function(XMLHttpRequest, textStatus, errorThrown) {
-					alert(XMLHttpRequest.status);
-					alert(XMLHttpRequest.readyState);
-					alert(textStatus);
-				}
-			});
-		}
-	}
-	//计算环长
-	function distance(array) {
-		var mile = 0;
-		var i;
-		for (i = 0; i < array.length - 1; i++) {
-		   mile+=map.getDistance(new BMap.Point(array[i].lng, array[i].lat),new BMap.Point(array[i + 1].lng,
-					array[i + 1].lat))/1000;
-		}
-		mile=mile.toFixed(4);
-		return mile;
-	}
+
 	</script>
 	<script>
-	function FormLabel(array)
-	{
-		$.ajax({
-			async : false,
-			type : "POST",
-			url : "center",
-			dataType : "json",
-			contentType : "application/json;charset=UTF-8",
-			data : JSON.stringify(array),
-			crossDomain : true,
-			success : function(data) {
-				centerlabel = eval(data)
-				var point = new BMap.Point(centerlabel[0].lng,
-						centerlabel[0].lat);
-				var opts = {
-					position : point, // 指定文本标注所在的地理位置
-					offset : new BMap.Size(-30, 0)
-				//设置文本偏移量
-				}
-				var miles = distance(array);
-				miles=parseFloat(miles);
-				Tdistance +=miles;
-				var label = new BMap.Label("总距离为：" + miles + "公里", opts); // 创建文本标注对象
-				label.setStyle({
-					color : "red",
-					fontSize : "20px",
-					height : "25px",
-					lineHeight : "25px",
-					fontFamily : "微软雅黑"
-				});
-				map.addOverlay(label);
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				alert(XMLHttpRequest.status);
-				alert(XMLHttpRequest.readyState);
-				alert(textStatus);
-			}
-		});
-	}
+	
 	</script>
 	<script>
 	//点击我的方案
-	function yingcang()
+	<%--function yingcang()
 	
 	{
-		document.getElementById("allmap").style.display="none";//隐藏
+		
+		 document.getElementById("allmap").style.display="none";//隐藏
 		document.getElementById("Plantable").style.display="block";//显示
 		layui.use('table', function() {
 			var table = layui.table;
@@ -1046,7 +1100,7 @@ p {
 					align : 'center',
 					width : 80
 				}, {
-					field : 'flage',
+					field : 'flag',
 					title : '是否已生成方案',
 					align : 'center',
 					width : 130
@@ -1101,16 +1155,16 @@ p {
 										pointArray[i]=pointArraydetail[j];
 							}
 							ReadPoint();
-							if(plan.flage==1)
+							if(plan.flag==1)
 								{
 								calculate1(pointArray);
 								discriwarehouse=0;
 								}
-							if(plan.flage>1)
+							if(plan.flag>1)
 								{
 								ReadWarehouse();
 								}
-							if(plan.flage==3)
+							if(plan.flag==3)
 								{
 								/*map.removeOverlay(polyline);*/
 								var list=ReadDraw();
@@ -1155,7 +1209,7 @@ p {
 			    }*/
 			  });
 		});		
-	}
+	}--%>
 	</script>
 	<script>
 	function ReadPoint()
@@ -1251,11 +1305,11 @@ p {
 					.bind(marker)));
 			marker.addContextMenu(markerMenu);
 		}
+		
 	}
 	</script>
 	<script>
 	function ReadDraw(){
-	
 		var list=new Array();
 		for(var i=0;i<cangk.length;i++){
 			var slist=new Array();
@@ -1264,31 +1318,180 @@ p {
 			point1.id=ii+1;
 			point1.lng=cangk[i].lng;
 			point1.lat=cangk[i].lat;
-			point1.flage=cangk[i].id;
+			point1.flag=cangk[i].id;
 			slist[ii]=point1;
 			ii++;
 			
 			for(var j=0;j<pointArray.length;j++)
-				if(pointArray[j].flage==i+1){
+				if(pointArray[j].flag==i+1){
 					var point=new Object();
 					point.id=ii+1;
 					point.lng=pointArray[j].lng;
 					point.lat=pointArray[j].lat;
-					point.flage=pointArray[j].flage;
+					point.flag=pointArray[j].flag;
 					slist[ii]=point;
 					ii++;
 				}
+			
 		<%--	var point=new Object();
 			point.id=ii+1;
 			point.lng=cangk[i].lng;
 			point.lat=cangk[i].lat;
-			point.flage=cangk[i].id;
+			point.flag=cangk[i].id;
 			slist[ii]=point;
 			ii++;
 			--%>
 			list[i]=slist;
+			mySavePointArray = mySavePointArray.concat(slist);
 			console.log(list);
 		}
 		return list;
+		
+		
 	}
+	
+	//监听这是否是一个读取的请求
+	<%
+	if(session.getAttribute("LOADPLANNAME") != null){
+	%>
+		newPlanPlan();
+		//获取全部的标记点并且画上去
+		$.ajax({
+			type : "POST",
+			url : "PlanController/getPoints",
+			dataType : "json",
+			async : false,
+			contentType : "application/json;charset=UTF-8",
+			crossDomain : true,
+			beforeSend: function () {
+		        // 禁用按钮防止重复提交
+				layer.msg('正在生成方案，请稍后...', {
+					icon : 16,
+					shade : 0.01,
+					time : 100000
+				});
+		    },
+			success : function(data) {
+				alert(data);
+				
+				pointArray = eval(data);
+				alert(pointArray);
+				for(i=0;i < pointArray.length;i++){
+					var point = new BMap.Point(pointArray[i].lng, pointArray[i].lat);//添加点坐标
+					//标注是标记
+					var marker = new BMap.Marker(point); // 创建标注  
+					map.addOverlay(marker); // 将标注添加到地图中    
+				    marker.disableMassClear();//mark不被清除
+				    //label？
+					var label = new BMap.Label(pointArray[i].id, {
+						//标记上的文字偏移量
+						offset : new BMap.Size(20, -10)
+					});
+					label.setStyle({
+						fontSize : "20px"
+					});
+					marker.setLabel(label);
+					//删除标注  仓库和标记公用
+					
+				}
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				alert(XMLHttpRequest.status);
+				alert(XMLHttpRequest.readyState);
+				alert(textStatus);
+			}
+		});
+		var myIcon1 = new BMap.Icon("img/cangku.jpg", new BMap.Size(300, 157), {
+			anchor : new BMap.Size(25, 25)
+		});
+		//获取全部的仓库点并且画上去
+		$.ajax({
+			type : "POST",
+			url : "PlanController/getWarehousePoints",
+			dataType : "json",
+			async : false,
+			contentType : "application/json;charset=UTF-8",
+			crossDomain : true,
+			success : function(data) {
+				alert(data);
+			
+				cangk = eval(data);
+				if(cangk.length == 0){
+					discriwarehouse = 0;
+				}else{
+					discriwarehouse = 2;
+				}
+				
+				alert(cangk);
+				for(i=0;i < cangk.length;i++){
+					var point = new BMap.Point(cangk[i].lng, cangk[i].lat);//添加点坐标
+					var marker = new BMap.Marker(point, {
+						icon : myIcon1
+					}); // 创建仓库标注
+					map.addOverlay(marker); // 将标注添加到地图中
+					marker.disableMassClear();//mark不被清除
+					var label = new BMap.Label("仓库" + i, {
+						offset : new BMap.Size(20, -30)
+					});
+					label.setStyle({
+						fontSize : "20px"
+					});
+					marker.setLabel(label);
+
+				}
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				alert(XMLHttpRequest.status);
+				alert(XMLHttpRequest.readyState);
+				alert(textStatus);
+			}
+		});
+		layer.closeAll();
+		calculate();
+
+		
+
+	
+	//开始
+	function newPlanPlan() {
+		var x=0;
+		<%--Object str = request.getAttribute("planName");--%>
+		//使用session中的plan
+		var str = "${LOADPLANNAME}";
+			$.ajax({
+				async : false,
+				type : "POST",
+				url : "PlanController/newPlan",
+				dataType : "json",
+				contentType : "application/json;charset=UTF-8",
+				data : JSON.stringify(str),
+				crossDomain : true,
+				success : function(data) {
+					//
+					x=eval(data);
+					if(x==1){
+					PlanName = str;
+					//layer.close(index);
+					discrimap=1;
+					restart();
+					//alert(discrimap);
+					}
+					else
+					{
+						layer.msg('方案名已存在！', {icon: 5});
+					}
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					alert(XMLHttpRequest.status);
+					alert(XMLHttpRequest.readyState);
+					alert(textStatus);
+				}
+			});		
+
+	}
+
+	<%
+	session.setAttribute("LOADPLANNAME",null);
+	}
+	%>
 </script>

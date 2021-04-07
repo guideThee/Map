@@ -12,9 +12,9 @@
 	<!-- 自动扫描 -->
 	<context:component-scan base-package="com.c.service"></context:component-scan>
 	<context:component-scan base-package="com.c.Impl"></context:component-scan>
-	<context:component-scan base-package="com。bean"></context:component-scan>
-	<context:component-scan base-package="com。dao"></context:component-scan>
-	<context:component-scan base-package="com。mapper"></context:component-scan>
+	<context:component-scan base-package="com.bean"></context:component-scan>
+	<context:component-scan base-package="com.dao"></context:component-scan>
+	<context:component-scan base-package="com.mapper"></context:component-scan>
 	<!-- 引入配置文件 -->
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

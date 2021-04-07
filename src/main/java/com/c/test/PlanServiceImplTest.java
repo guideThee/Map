@@ -30,7 +30,7 @@ public class PlanServiceImplTest {
 		Point point2 = new Point("test12",1234,"1124","124","12");
 		list.add(point1);
 		list.add(point2);
-		planService.addPlan(plan, list);
+		planService.addPlan(plan);
 	}
 
 	@Test

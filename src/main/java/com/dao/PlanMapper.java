@@ -16,5 +16,7 @@ public interface PlanMapper {
 	List<Plan> queryAllPlan();
 
 	List<Plan> queryByuserLoginname(String userLoginname);
+	
+	Plan selectByUserLoginnameAndplanName(Plan plan);
 
 }

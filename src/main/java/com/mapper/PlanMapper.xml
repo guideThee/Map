@@ -34,4 +34,9 @@
 	<select id="queryByuserLoginname" resultType="com.bean.Plan">
 		select * from plan where user_loginname=#{userLoginname}
 	</select>
+	
+	<!-- Plan selectByUserLoginnameAndplanName(String userLoginname,String planName); -->
+	<select id="selectByUserLoginnameAndplanName" resultType="com.bean.Plan">
+		select * from plan where user_loginname=#{userLoginname} and plan_name=#{planName}
+	</select>
 </mapper>

@@ -20,8 +20,8 @@ public class PlanServiceImpl implements PlanService {
 	private PointMapper pointMapper;
 
 	@Override
-	public int addPlan(Plan plan, List<Point> points) {
-		pointMapper.insertBatch(points);
+	public int addPlan(Plan plan) {
+		
 		return planMapper.insert(plan);
 	}
 
@@ -36,10 +36,15 @@ public class PlanServiceImpl implements PlanService {
 	}
 
 	@Override
-	public int deleteByPlanId(String planId,List<Point> points) {
-		pointMapper.deleteByPlanId(planId);
+	public int deletePointsByPlanId(String planId) {
+		return pointMapper.deleteByPlanId(planId);
+	}
+	
+	@Override
+	public int deletePlanByPlanId(String planId) {
 		return planMapper.deleteByPrimaryKey(planId);
 	}
+
 
 	@Override
 	public Plan queryOnePlan(String planId) {
@@ -49,5 +54,16 @@ public class PlanServiceImpl implements PlanService {
 	@Override
 	public List<Point> queryPointsInOnePlan(String planId) {
 		return pointMapper.queryByPlanId(planId);
+	}
+
+
+	@Override
+	public int addPoints(List<Point> points) {
+		return pointMapper.insertBatch(points);
+	}
+
+	@Override
+	public Plan queryByUserLoginnameAndPlanName(Plan plan) {
+		return planMapper.selectByUserLoginnameAndplanName(plan);
 	}
 }
