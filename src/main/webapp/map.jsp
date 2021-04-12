@@ -734,7 +734,7 @@ p {
 	}
 	//手动生成仓库-2.分类
 	function calculate3(){
-		alert("调用calculate3");
+		//alert("调用calculate3");
 		//
 		discridraw=3;
 		//flag=1
@@ -889,7 +889,7 @@ p {
 	//自动生成仓库-a.绘制方案
 	//calculate2直接删除
 	function calculate2() {
-		alert("调用calculate2")
+		//alert("调用calculate2")
 		/*map.removeOverlay(polyline);*/
 		var i;
 		for (i = 0; i < cluster.length; i++) {
@@ -968,7 +968,7 @@ p {
 	//保存方案
 	function savePlan() {
 		console.log("savePlan");
-		alert("savePlan()");
+		//alert("savePlan()");
 		var s = "${USER.userLoginname}";
 <%--		let myPlan = class {
 			constructor(planName,userLoginname,distance){
@@ -1031,7 +1031,7 @@ p {
 		console.log(pointArray);
 		console.log(cangku);
 		console.log(saveArray);
-		alert("savePoint()");
+		//alert("savePoint()");
 	//if(discridraw==0||discridraw==1){
 		//var savePointArray = pointArray.concat(cangk);
 		$.ajax({
@@ -1372,10 +1372,10 @@ p {
 				});
 		    },
 			success : function(data) {
-				alert(data);
+				//alert(data);
 				
 				pointArray = eval(data);
-				alert(pointArray);
+				//alert(pointArray);
 				for(i=0;i < pointArray.length;i++){
 					var point = new BMap.Point(pointArray[i].lng, pointArray[i].lat);//添加点坐标
 					//标注是标记
@@ -1413,7 +1413,7 @@ p {
 			contentType : "application/json;charset=UTF-8",
 			crossDomain : true,
 			success : function(data) {
-				alert(data);
+				//alert(data);
 			
 				cangk = eval(data);
 				if(cangk.length == 0){
@@ -1422,7 +1422,7 @@ p {
 					discriwarehouse = 2;
 				}
 				
-				alert(cangk);
+				//alert(cangk);
 				for(i=0;i < cangk.length;i++){
 					var point = new BMap.Point(cangk[i].lng, cangk[i].lat);//添加点坐标
 					var marker = new BMap.Marker(point, {

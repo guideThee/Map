@@ -3,18 +3,22 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans  
                         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
                         http://www.springframework.org/schema/context  
                         http://www.springframework.org/schema/context/spring-context-4.0.xsd  
                         http://www.springframework.org/schema/mvc  
-                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                        http://www.springframework.org/schema/data/mongo
+						http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
 	<!-- 自动扫描 -->
 	<context:component-scan base-package="com.c.service"></context:component-scan>
 	<context:component-scan base-package="com.c.Impl"></context:component-scan>
 	<context:component-scan base-package="com.bean"></context:component-scan>
 	<context:component-scan base-package="com.dao"></context:component-scan>
 	<context:component-scan base-package="com.mapper"></context:component-scan>
+	
 	<!-- 引入配置文件 -->
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -38,7 +42,36 @@
 		<!-- 获取连接最大等待时间 -->
 		<property name="maxWait" value="${maxWait}"></property>
 	</bean>
- 
+<!--连接池配置-->
+<!--
+<mongo:mongo host="${mongo.host}" port="${mongo.port}">
+    <mongo:options connections-per-host="${mongo.options.connections-per-host}"
+                   threads-allowed-to-block-for-connection-multiplier="${mongo.options.threads-allowed-to-block-for-connection-multiplier}"
+                   connect-timeout="${mongo.options.connect-timeout}"
+                   max-wait-time="${mongo.options.max-wait-time}"
+                   auto-connect-retry="${mongo.options.auto-connect-retry}"
+                   socket-keep-alive="${mongo.options.socket-keep-alive}"
+                   socket-timeout="${mongo.options.socket-timeout}"
+                   slave-ok="${mongo.options.slave-ok}"
+                   write-number="${mongo.options.write-number}"
+                   write-timeout="${mongo.options.write-timeout}"
+                   write-fsync="${mongo.options.write-fsync}"/>
+</mongo:mongo>
+ -->
+<!--连接池工厂配置-->
+<!--
+<mongo:db-factory dbname="${mongo.dbname}" username="${mongo.username}" password="${mongo.password}"  mongo-ref="mongo"/>
+<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+    <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
+</bean>
+ -->
+<!--实体映射自动扫描注入的包-->
+<!-- 
+<mongo:mapping-converter>
+    <mongo:custom-converters base-package="com.xyh.mongodb_model" />
+</mongo:mapping-converter>
+-->
+
 	<!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />

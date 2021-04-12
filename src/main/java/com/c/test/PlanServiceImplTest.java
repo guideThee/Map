@@ -24,12 +24,13 @@ public class PlanServiceImplTest {
 
 	@Test
 	public void testAddPlan() {
-		Plan plan = new Plan("test12","test1","name1","121",new Timestamp(112312323L));
 		List<Point> list = new ArrayList<>();
 		Point point1 = new Point("test12",123,"1123","123","11");
 		Point point2 = new Point("test12",1234,"1124","124","12");
 		list.add(point1);
 		list.add(point2);
+		
+		Plan plan = new Plan("test12","test1","name1","121",new Timestamp(112312323L),list);
 		planService.addPlan(plan);
 	}
 
