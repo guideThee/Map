@@ -666,7 +666,7 @@ p {
 				});
 		    },
 			success : function(data) {
-				alert("运行算法calculate1");
+				//alert("运行算法calculate1");
 				sort = eval(data);//evaluate
 				draw(list);
 			},
